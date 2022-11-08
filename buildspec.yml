@@ -15,11 +15,8 @@ phases:
       - npm run build
   post_build:
     commands:
-      - echo move dist folder content to root directory...
-      - mv dist/.* .
-      - echo remove dist folder
-      - rmdir dist
+      - echo Build completed on `date`
 artifacts:
   files:
-    - dist/*
-    - dist/assets/*
+    - '**/*'
+    base-directory: 'dist'
