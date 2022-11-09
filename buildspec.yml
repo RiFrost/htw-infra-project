@@ -9,8 +9,6 @@ phases:
     commands:
       - echo Installing source NPM dependencies...
       - npm install
-      - echo Running Amplify init
-      - amplifyPush --simple
   build:
     commands:
       - echo Build started on `date`
