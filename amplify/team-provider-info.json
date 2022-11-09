@@ -10,6 +10,11 @@
       "StackName": "amplify-jrproject-dev-154644",
       "StackId": "arn:aws:cloudformation:eu-west-1:392833301304:stack/amplify-jrproject-dev-154644/5677d980-603d-11ed-968c-0a5d9dae1477",
       "AmplifyAppId": "d2rlh7xpkd6oqq"
+    },
+    "categories": {
+      "auth": {
+        "jrproject43fb2e3c": {}
+      }
     }
   }
 }
