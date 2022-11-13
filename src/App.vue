@@ -2,7 +2,6 @@
 import Navbar from "@/components/Navbar.vue";
 import { useAuthStore } from "@/stores/auth";
 import axios from "axios";
-import { Auth } from "aws-amplify";
 import { ref } from "vue";
 
 const authStore = useAuthStore();

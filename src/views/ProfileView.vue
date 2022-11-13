@@ -3,7 +3,5 @@
     <h3>Profile View</h3>
   </div>
 </template>
-<script>
-export default {};
-</script>
+<script setup></script>
 <style></style>
