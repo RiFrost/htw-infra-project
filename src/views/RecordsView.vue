@@ -152,8 +152,8 @@ import { ref } from "vue";
 const loadingContent = ref(true);
 const waitingForRes = ref(false);
 const isShowModal = ref(false);
-const text = "";
-const desiredLang = "";
+const text = ref("");
+const desiredLang = ref("");
 
 async function fetchDBEntries() {
   setTimeout(() => (loadingContent.value = false), 3000);
