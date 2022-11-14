@@ -10,25 +10,27 @@ authStore.authUser();
 const res = ref(null);
 
 async function sendAPIRequest() {
+  const headers = {
+    Authorization: authStore.getAccessToken,
+    "Content-type": "Application/json",
+  };
+  const data = {
+    text: "Lorem Ipsum",
+    desiredLang: "SP",
+  };
+
   axios
-    .post(
-      import.meta.env.VITE_POST_API_ENDPOINT,
-      {},
-      {
-        headers: {
-          Authorization: authStore.getAccessToken,
-        },
-      }
-    )
+    .post(`${import.meta.env.VITE_POST_API_ENDPOINT}/translate`, data, {
+      headers,
+    })
     .then(function (response) {
-      console.log(response);
+      console.log(response.data.body);
       res.value = response;
     })
     .catch(function (error) {
       console.log(error);
       res.value = error;
     });
-  console.log(res.value);
 }
 </script>
 

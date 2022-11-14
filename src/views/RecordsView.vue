@@ -147,7 +147,12 @@
 <script setup>
 import Table from "@/components/Table.vue";
 import Skeleton from "@/components/Skeleton.vue";
+import axios from "axios";
+import { useAuthStore } from "@/stores/auth";
 import { ref } from "vue";
+
+const authStore = useAuthStore();
+authStore.authUser();
 
 const loadingContent = ref(true);
 const waitingForRes = ref(false);
@@ -165,12 +170,35 @@ function closeModal() {
 function showModal() {
   isShowModal.value = true;
 }
-function sendToAWS(text, desiredLang) {
-  console.log(text, desiredLang);
-  if (text == "" || desiredLang == "") return;
+function sendToAWS(txt, lang) {
+  if (txt == "" || lang == "") return;
   closeModal();
   waitingForRes.value = true;
-  setTimeout(() => (waitingForRes.value = false), 4000);
+
+  const headers = {
+    Authorization: authStore.getAccessToken,
+    "Content-type": "Application/json",
+  };
+  const data = {
+    text: txt,
+    desiredLang: lang,
+  };
+
+  axios
+    .post(`${import.meta.env.VITE_POST_API_ENDPOINT}/translate`, data, {
+      headers,
+    })
+    .then((response) => {
+      console.log(response.data.body);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      waitingForRes.value = false;
+      text.value = "";
+      desiredLang.value = "";
+    });
 }
 
 fetchDBEntries();
