@@ -7,11 +7,13 @@ import { Auth } from "aws-amplify";
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     user: null,
+    userId: null,
     accessToken: null,
   }),
   getters: {
     getUser: (state) => state.user,
     getAccessToken: (state) => state.accessToken,
+    getUserId: (state) => state.userId,
   },
   actions: {
     async login(username, password) {
@@ -23,7 +25,10 @@ export const useAuthStore = defineStore("auth", {
 
         this.user = await Auth.currentUserInfo();
         this.accessToken = await Auth.currentSession()
-          .then((res) => (this.accessToken = res.getIdToken().getJwtToken()))
+          .then((res) => {
+            this.accessToken = res.getIdToken().getJwtToken();
+            this.userId = res.getIdToken().payload.sub;
+          })
           .catch(() => null);
         return Promise.resolve("Success");
       } catch (error) {
@@ -33,7 +38,7 @@ export const useAuthStore = defineStore("auth", {
     },
     async logout() {
       this.user = null;
-      this.accessToken = null;
+      (this.userId = null), (this.accessToken = null);
       return await Auth.signOut();
     },
     async signUp(username, password, email) {
@@ -63,7 +68,10 @@ export const useAuthStore = defineStore("auth", {
     },
     async authUser() {
       this.user = (await Auth.currentSession()
-        .then((res) => (this.accessToken = res.getIdToken().getJwtToken()))
+        .then((res) => {
+          this.accessToken = res.getIdToken().getJwtToken();
+          this.userId = res.getIdToken().payload.sub;
+        })
         .catch(() => null))
         ? await Auth.currentUserInfo().catch(() => null)
         : null;

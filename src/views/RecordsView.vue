@@ -174,6 +174,7 @@ function sendToAWS(txt, lang) {
   if (txt == "" || lang == "") return;
   closeModal();
   waitingForRes.value = true;
+  const userId = authStore.getUserId;
 
   const headers = {
     Authorization: authStore.getAccessToken,
@@ -182,6 +183,7 @@ function sendToAWS(txt, lang) {
   const data = {
     text: txt,
     desiredLang: lang,
+    userId: userId,
   };
 
   axios
