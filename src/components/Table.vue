@@ -1,5 +1,6 @@
 <template>
-  <div class="overflow-x-none">
+  <Skeleton v-if="loading"></Skeleton>
+  <div v-else class="overflow-x-none">
     <table
       class="w-10/12 mx-auto shadow-md text-sm text-left text-gray-500 dark:text-gray-400"
     >
@@ -22,12 +23,12 @@
             scope="row"
             class="py-4 px-6 font-medium text-gray-900 whitespace-wrap dark:text-white"
           >
-            {{ record.org_text }}
+            {{ record.text.S }}
           </th>
           <td class="py-4 px-1 text-center">
-            {{ record.org_lang }} - {{ record.org_lang }}
+            {{ record.detectedLang.S }} - {{ record.desiredLang.S }}
           </td>
-          <td class="py-4 px-6 text-center">{{ record.trans_text }}</td>
+          <td class="py-4 px-6 text-center">{{ record.translation.S }}</td>
           <td class="py-4 px-6 text-center">
             <a
               href="#"
@@ -41,10 +42,41 @@
   </div>
 </template>
 <script setup>
-const records = [
-  { org_text: "", org_lang: "DE", trans_lang: "EN", trans_text: "" },
-  { org_text: "", org_lang: "EN", trans_lang: "DE", trans_text: "" },
-  { org_text: "", org_lang: "SP", trans_lang: "DE", trans_text: "" },
-]; // comes through props from RecordsView
+import Skeleton from "@/components/Skeleton.vue";
+import axios from "axios";
+import { useAuthStore } from "@/stores/auth";
+import { ref } from "vue";
+
+defineExpose({
+  fetchDBEntries,
+});
+
+const authStore = useAuthStore();
+authStore.authUser();
+
+const records = ref();
+const loading = ref(true);
+
+async function fetchDBEntries() {
+  const headers = {
+    Authorization: authStore.getAccessToken,
+    "Content-type": "*/*",
+  };
+  const userId = authStore.getUserId;
+  axios
+    .get(`${import.meta.env.VITE_POST_API_ENDPOINT}/records?userId=${userId}`, {
+      headers,
+    })
+    .then((response) => {
+      records.value = response.data.body.records;
+      console.log(records.value);
+      loading.value = false;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+fetchDBEntries();
 </script>
 <style></style>

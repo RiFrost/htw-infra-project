@@ -39,6 +39,6 @@ async function sendAPIRequest() {
     <Navbar />
   </header>
   <RouterView />
-  <button @click="sendAPIRequest">Test Request</button>
-  <p>Result: {{ res }}</p>
+  <!-- <button @click="sendAPIRequest">Test Request</button>
+  <p>Result: {{ res }}</p> -->
 </template>

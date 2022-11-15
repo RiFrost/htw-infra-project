@@ -29,8 +29,7 @@
       Try it Out!
     </button>
   </div>
-  <Skeleton v-if="loadingContent"></Skeleton>
-  <Table v-else></Table>
+  <Table ref="TableRef"></Table>
 
   <Transition name="bounce">
     <div
@@ -110,10 +109,10 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
                 <option VALUE="" selected disabled>Choose a language</option>
-                <option value="EN">English</option>
-                <option value="SP">Spanish</option>
-                <option value="FR">French</option>
-                <option value="DE">German</option>
+                <option value="en-US">English</option>
+                <option value="es-ES">Spanish</option>
+                <option value="fr-FR">French</option>
+                <option value="de-DE">German</option>
               </select>
             </div>
             <!-- Modal footer -->
@@ -139,14 +138,15 @@
       </form>
     </div>
   </Transition>
-  <div
-    v-if="isShowModal"
-    class="fixed z-40 items-center justify-center overflow-x-hidden overflow-y-auto top-4 h-modal md:h-full md:inset-0 bg-gray-50 opacity-50"
-  ></div>
+  <Transition name="fade"
+    ><div
+      v-if="isShowModal"
+      class="fixed z-40 items-center justify-center overflow-x-hidden overflow-y-auto top-4 h-modal md:h-full md:inset-0 bg-gray-50 opacity-50"
+    ></div
+  ></Transition>
 </template>
 <script setup>
 import Table from "@/components/Table.vue";
-import Skeleton from "@/components/Skeleton.vue";
 import axios from "axios";
 import { useAuthStore } from "@/stores/auth";
 import { ref } from "vue";
@@ -154,15 +154,11 @@ import { ref } from "vue";
 const authStore = useAuthStore();
 authStore.authUser();
 
-const loadingContent = ref(true);
 const waitingForRes = ref(false);
 const isShowModal = ref(false);
 const text = ref("");
 const desiredLang = ref("");
-
-async function fetchDBEntries() {
-  setTimeout(() => (loadingContent.value = false), 3000);
-}
+const TableRef = ref();
 
 function closeModal() {
   isShowModal.value = false;
@@ -174,12 +170,12 @@ function sendToAWS(txt, lang) {
   if (txt == "" || lang == "") return;
   closeModal();
   waitingForRes.value = true;
-  const userId = authStore.getUserId;
-
   const headers = {
     Authorization: authStore.getAccessToken,
     "Content-type": "Application/json",
   };
+  const userId = authStore.getUserId;
+
   const data = {
     text: txt,
     desiredLang: lang,
@@ -192,6 +188,7 @@ function sendToAWS(txt, lang) {
     })
     .then((response) => {
       console.log(response.data.body);
+      TableRef.value.fetchDBEntries();
     })
     .catch((error) => {
       console.log(error);
@@ -202,11 +199,19 @@ function sendToAWS(txt, lang) {
       desiredLang.value = "";
     });
 }
-
-fetchDBEntries();
 </script>
 
 <style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .bounce-enter-active {
   animation: bounce-in 0.5s;
 }
