@@ -75,7 +75,7 @@
                     >Profile</a
                   >
                 </MenuItem>
-                <MenuItem v-if="authStore.getAccessToken" v-slot="{ active }">
+                <MenuItem v-if="authStore.getUser" v-slot="{ active }">
                   <a
                     @click="logout"
                     :class="[

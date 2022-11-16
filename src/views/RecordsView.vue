@@ -196,13 +196,16 @@ function sendToAWS(txt, lang, sex) {
     })
     .then((response) => {
       console.log(response.data.body);
-      TableRef.value.fetchDBEntries();
+      setTimeout(() => {
+        TableRef.value.fetchDBEntries();
+        waitingForRes.value = false;
+      }, 4000);
     })
     .catch((error) => {
       console.log(error);
+      waitingForRes.value = false;
     })
     .finally(() => {
-      waitingForRes.value = false;
       text.value = "";
       desiredLang.value = "";
     });

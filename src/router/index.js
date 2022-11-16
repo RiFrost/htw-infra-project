@@ -1,5 +1,6 @@
 import { Auth } from "aws-amplify";
 import { createRouter, createWebHistory } from "vue-router";
+import { useAuthStore } from "../stores/auth";
 import HomeView from "../views/HomeView.vue";
 
 const router = createRouter({
@@ -26,8 +27,10 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore();
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
   const isAuthenticated = await Auth.currentSession().catch(() => null);
+  await authStore.authUser();
 
   if (requiresAuth && !isAuthenticated) {
     next("/");

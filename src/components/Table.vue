@@ -67,6 +67,7 @@ async function fetchDBEntries() {
     "Content-type": "*/*",
   };
   const userId = authStore.getUserId;
+  audio.value = null;
   axios
     .get(`${import.meta.env.VITE_POST_API_ENDPOINT}/records?userId=${userId}`, {
       headers,
@@ -74,15 +75,16 @@ async function fetchDBEntries() {
     .then((response) => {
       records.value = response.data.body.records;
       console.log(records.value);
-      loading.value = false;
     })
     .catch((error) => {
       console.log(error);
+    })
+    .finally(() => {
+      loading.value = false;
     });
 }
 
 function playAudio(uuid) {
-  let audioBuffer;
   const headers = {
     Authorization: authStore.getAccessToken,
     "Content-type": "*/*",
@@ -93,20 +95,12 @@ function playAudio(uuid) {
     })
     .then((response) => {
       console.log(response);
-      audioBuffer = response.data.audio.AudioStream.data;
+      audioStream = response.data.audio.AudioStream.data;
 
-      var uInt8Array = new Uint8Array(audioBuffer);
+      var uInt8Array = new Uint8Array(audioStream);
       var arrayBuffer = uInt8Array.buffer;
       var blob = new Blob([arrayBuffer]);
       var url = URL.createObjectURL(blob);
-
-      let audioData = new Blob(audioBuffer, { type: "audio/mpeg" });
-      let audioFile = new File(audioBuffer, "test", {
-        type: "audio/mp3",
-        lastModified: Date.now(),
-      });
-      console.log(audioData);
-      console.log(audioFile);
 
       audio.value = url;
       hasAudio.value = true;

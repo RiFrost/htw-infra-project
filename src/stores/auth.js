@@ -25,9 +25,8 @@ export const useAuthStore = defineStore("auth", {
 
         this.user = await Auth.currentUserInfo();
         this.accessToken = await Auth.currentSession()
-          .then((res) => {
-            this.accessToken = res.getIdToken().getJwtToken();
-            this.userId = res.getIdToken().payload.sub;
+          .then(async (res) => {
+            await this.authUser();
           })
           .catch(() => null);
         return Promise.resolve("Success");
@@ -71,6 +70,7 @@ export const useAuthStore = defineStore("auth", {
         .then((res) => {
           this.accessToken = res.getIdToken().getJwtToken();
           this.userId = res.getIdToken().payload.sub;
+          return res;
         })
         .catch(() => null))
         ? await Auth.currentUserInfo().catch(() => null)
