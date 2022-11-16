@@ -25,16 +25,18 @@
           >
             {{ record.text.S }}
           </th>
-          <td class="py-4 px-1 text-center">
+          <td class="py-4 px-1 text-center capitalize">
             {{ record.detectedLang.S }} - {{ record.desiredLang.S }}
           </td>
           <td class="py-4 px-6 text-center">{{ record.translation.S }}</td>
           <td class="py-4 px-6 text-center">
             <a
               href="#"
+              @click="playAudio(record.UUID.S)"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
               >Play</a
             >
+            <audio v-if="hasAudio" :src="audio" autoplay>Play</audio>
           </td>
         </tr>
       </tbody>
@@ -56,6 +58,8 @@ authStore.authUser();
 
 const records = ref();
 const loading = ref(true);
+const hasAudio = ref(false);
+const audio = ref();
 
 async function fetchDBEntries() {
   const headers = {
@@ -71,6 +75,41 @@ async function fetchDBEntries() {
       records.value = response.data.body.records;
       console.log(records.value);
       loading.value = false;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+function playAudio(uuid) {
+  let audioBuffer;
+  const headers = {
+    Authorization: authStore.getAccessToken,
+    "Content-type": "*/*",
+  };
+  axios
+    .get(`${import.meta.env.VITE_POST_API_ENDPOINT}/audio?uuid=${uuid}`, {
+      headers,
+    })
+    .then((response) => {
+      console.log(response);
+      audioBuffer = response.data.audio.AudioStream.data;
+
+      var uInt8Array = new Uint8Array(audioBuffer);
+      var arrayBuffer = uInt8Array.buffer;
+      var blob = new Blob([arrayBuffer]);
+      var url = URL.createObjectURL(blob);
+
+      let audioData = new Blob(audioBuffer, { type: "audio/mpeg" });
+      let audioFile = new File(audioBuffer, "test", {
+        type: "audio/mp3",
+        lastModified: Date.now(),
+      });
+      console.log(audioData);
+      console.log(audioFile);
+
+      audio.value = url;
+      hasAudio.value = true;
     })
     .catch((error) => {
       console.log(error);

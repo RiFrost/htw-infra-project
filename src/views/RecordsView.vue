@@ -38,7 +38,7 @@
       aria-hidden="true"
       class="fixed z-50 items-center justify-center overflow-x-hidden overflow-y-auto top-4 h-modal md:h-full md:inset-0"
     >
-      <form @submit.prevent="sendToAWS(text, desiredLang)">
+      <form @submit.prevent="sendToAWS(text, desiredLang, gender)">
         <div
           class="relative mx-auto my-40 w-full h-full max-w-4xl px-4 md:h-auto"
         >
@@ -96,24 +96,30 @@
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Your text ..."
               ></textarea>
-              <label
-                for="lang"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
-                >The desired language into which the text should be transferred
-                ...</label
-              >
-              <select
-                id="countries"
-                v-model="desiredLang"
-                required
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              >
-                <option VALUE="" selected disabled>Choose a language</option>
-                <option value="en-US">English</option>
-                <option value="es-ES">Spanish</option>
-                <option value="fr-FR">French</option>
-                <option value="de-DE">German</option>
-              </select>
+              <div class="flex">
+                <select
+                  id="countries"
+                  v-model="desiredLang"
+                  required
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option value="" selected disabled>Choose a language</option>
+                  <option value="en-US">English</option>
+                  <option value="es-ES">Spanish</option>
+                  <option value="fr-FR">French</option>
+                  <option value="de-DE">German</option>
+                </select>
+                <select
+                  id="gender"
+                  v-model="gender"
+                  required
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 ml-3 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option value="" selected disabled>Choose a gender</option>
+                  <option value="Female">Female</option>
+                  <option value="Male">Male</option>
+                </select>
+              </div>
             </div>
             <!-- Modal footer -->
             <div
@@ -158,6 +164,7 @@ const waitingForRes = ref(false);
 const isShowModal = ref(false);
 const text = ref("");
 const desiredLang = ref("");
+const gender = ref("");
 const TableRef = ref();
 
 function closeModal() {
@@ -166,7 +173,7 @@ function closeModal() {
 function showModal() {
   isShowModal.value = true;
 }
-function sendToAWS(txt, lang) {
+function sendToAWS(txt, lang, sex) {
   if (txt == "" || lang == "") return;
   closeModal();
   waitingForRes.value = true;
@@ -179,6 +186,7 @@ function sendToAWS(txt, lang) {
   const data = {
     text: txt,
     desiredLang: lang,
+    gender: sex,
     userId: userId,
   };
 
