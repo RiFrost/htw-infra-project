@@ -85,6 +85,7 @@ async function fetchDBEntries() {
 }
 
 function playAudio(uuid) {
+  let audioStream;
   const headers = {
     Authorization: authStore.getAccessToken,
     "Content-type": "*/*",
