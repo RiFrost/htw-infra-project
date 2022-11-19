@@ -199,7 +199,7 @@ function sendToAWS(txt, lang, sex) {
       setTimeout(() => {
         TableRef.value.fetchDBEntries();
         waitingForRes.value = false;
-      }, 4000);
+      }, 6000);
     })
     .catch((error) => {
       console.log(error);
