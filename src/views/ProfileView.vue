@@ -1,7 +1,16 @@
 <template>
-  <div>
-    <h3>Profile View</h3>
-  </div>
+  <main class="main">
+    <div v-else>Profile View</div>
+  </main>
 </template>
+
 <script setup></script>
-<style></style>
+
+<style scoped>
+.main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1rem;
+}
+</style>
