@@ -20,7 +20,7 @@
   select {
     @apply bg-transparent;
   }
-
+  /* 
   button,
   [type="submit"] {
     @apply bg-cyan-400;
@@ -30,7 +30,7 @@
     @apply bg-transparent;
     @apply underline;
     @apply underline-offset-2;
-  }
+  } */
 }
 
 /* color palette from <https://github.com/vuejs/theme> */
