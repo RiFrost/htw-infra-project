@@ -1,4 +1,6 @@
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   [type="text"],
@@ -31,9 +33,6 @@
     @apply underline-offset-2;
   }
 }
-
-@tailwind components;
-@tailwind utilities;
 
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
