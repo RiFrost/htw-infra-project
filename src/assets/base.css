@@ -18,6 +18,11 @@
   select {
     @apply bg-transparent;
   }
+
+  button,
+  [type="submit"] {
+    @apply bg-cyan-400;
+  }
 }
 
 @tailwind components;
