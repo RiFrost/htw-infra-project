@@ -1,13 +1,13 @@
 <template>
-  <main class="main">
-    <div v-else>Profile View</div>
+  <main class="profile">
+    <div>Profile View</div>
   </main>
 </template>
 
 <script setup></script>
 
 <style scoped>
-.main{
+.profile {
   display: flex;
   justify-content: center;
   align-items: center;
