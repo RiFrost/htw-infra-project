@@ -36,9 +36,11 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     async logout() {
-      this.user = null;
-      (this.userId = null), (this.accessToken = null);
-      return await Auth.signOut();
+      await Auth.signOut();
+
+      await this.authUser();
+
+      return Promise.resolve();
     },
     async signUp(username, password, email) {
       try {
@@ -66,15 +68,13 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     async authUser() {
-      this.user = (await Auth.currentSession()
+      this.user = await Auth.currentSession()
         .then((res) => {
           this.accessToken = res.getIdToken().getJwtToken();
           this.userId = res.getIdToken().payload.sub;
           return res;
         })
-        .catch(() => null))
-        ? await Auth.currentUserInfo().catch(() => null)
-        : null;
+        .catch(() => null);
     },
   },
 });

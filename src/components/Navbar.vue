@@ -136,8 +136,8 @@ const navigation = [
 const authStore = useAuthStore();
 const router = useRouter();
 
-function logout() {
-  authStore.logout();
+async function logout() {
+  await authStore.logout();
   router.push("/");
 }
 </script>
