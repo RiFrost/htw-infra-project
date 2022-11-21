@@ -212,10 +212,14 @@ function sendToAWS(txt, lang, sex) {
 }
 </script>
 
-<style>
+<style scoped>
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
+}
+
+button {
+  text-decoration: none !important;
 }
 
 .fade-enter-from,

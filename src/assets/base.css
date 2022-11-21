@@ -23,6 +23,13 @@
   [type="submit"] {
     @apply bg-cyan-400;
   }
+
+  button,
+  [type="button"]:hover {
+    @apply bg-transparent;
+    @apply underline;
+    @apply underline-offset-2;
+  }
 }
 
 @tailwind components;
