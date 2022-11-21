@@ -26,7 +26,6 @@
     @apply bg-cyan-400;
   }
 
-  button,
   [type="button"]:hover {
     @apply bg-transparent;
     @apply underline;
