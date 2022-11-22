@@ -12,6 +12,13 @@ a,
     background-color: hsla(160, 100%, 37%, 0.2);
   }
 }
+.amplify-button[data-variation="primary"]:hover {
+  background-color: var(
+    --amplify-components-button-primary-hover-background-color
+  );
+  border-color: var(--amplify-components-button-primary-hover-border-color);
+  color: var(--amplify-components-button-primary-hover-color);
+}
 .amplify-button[data-variation="link"]:hover {
   background: none !important;
   text-decoration: underline !important;
@@ -20,12 +27,4 @@ a,
 
 .amplify-button[data-variation="primary"] {
   background: var(--amplify-colors-teal-80);
-}
-
-.amplify-button[data-variation="primary"]:hover {
-  background-color: var(
-    --amplify-components-button-primary-hover-background-color
-  );
-  border-color: var(--amplify-components-button-primary-hover-border-color);
-  color: var(--amplify-components-button-primary-hover-color);
 }
