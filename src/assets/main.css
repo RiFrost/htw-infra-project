@@ -13,9 +13,9 @@ a,
   }
 }
 .amplify-button[data-variation="link"]:hover {
-  background: none;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  background: none !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
 }
 
 .amplify-button[data-variation="primary"] {
