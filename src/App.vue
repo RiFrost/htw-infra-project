@@ -11,10 +11,9 @@ import Navbar from "@/components/Navbar.vue";
 
 <style>
 .amplify-button[data-variation="primary"]:hover {
-  /* background-color: var(
+  background-color: var(
     --amplify-components-button-primary-hover-background-color
-  ); */
-  background-color: pink !important;
+  );
   border-color: var(--amplify-components-button-primary-hover-border-color);
   color: var(--amplify-components-button-primary-hover-color);
 }
