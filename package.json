@@ -1,10 +1,12 @@
 {
   "name": "jr-repo",
   "version": "0.0.0",
+  "main": "main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "electron:start": "electron ."
   },
   "dependencies": {
     "@aws-amplify/ui-vue": "^2.4.26",
@@ -21,6 +23,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.1.2",
     "autoprefixer": "^10.4.13",
+    "electron": "^22.0.0",
     "postcss": "^8.4.18",
     "tailwindcss": "^3.2.2",
     "vite": "^3.1.8"
